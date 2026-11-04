@@ -1,0 +1,27 @@
+{
+  "name": "pombity",
+  "version": "0.1.0",
+  "description": "Command-line client for Pombity (Aric Communication Service): texting for your application, with the compliance built in.",
+  "type": "module",
+  "bin": {
+    "pombity": "bin/pombity.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "node scripts/lint.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aricsoftware/pombity-cli.git"
+  },
+  "author": "Aric Software",
+  "license": "UNLICENSED"
+}

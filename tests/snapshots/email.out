@@ -1,0 +1,19 @@
+{
+  "correlationId": "8549cdbb936f49eca78f2cc78b97a3d0",
+  "messages": [
+    {
+      "id": "45bef6f9f5214b629de5c9e7646c5aac",
+      "to": "dev@example.com",
+      "channel": "Email",
+      "subject": "Hello",
+      "status": "Sent",
+      "statusDetail": null,
+      "segments": 0,
+      "providerMessageId": "sandbox-email-1",
+      "deliveryStatus": null,
+      "correlationId": "8549cdbb936f49eca78f2cc78b97a3d0",
+      "createdAt": "2026-11-04T10:14:13.003559+00:00",
+      "sandbox": true
+    }
+  ]
+}

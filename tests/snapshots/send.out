@@ -1,0 +1,19 @@
+{
+  "correlationId": "37c2c3463267430f8e3fe817444dd601",
+  "messages": [
+    {
+      "id": "2d8da48052f845128412f9f28a784766",
+      "to": "+14785550123",
+      "channel": "Sms",
+      "subject": null,
+      "status": "Sent",
+      "statusDetail": null,
+      "segments": 1,
+      "providerMessageId": "sandbox-sms-1",
+      "deliveryStatus": null,
+      "correlationId": "37c2c3463267430f8e3fe817444dd601",
+      "createdAt": "2026-11-04T10:14:12.976754+00:00",
+      "sandbox": true
+    }
+  ]
+}

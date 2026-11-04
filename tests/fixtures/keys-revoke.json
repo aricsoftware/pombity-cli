@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "keys",
+    "revoke",
+    "--id",
+    "2aee00055b354186b8ac26e78391b622"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "DELETE",
+    "path": "/v1/keys/2aee00055b354186b8ac26e78391b622?tenantId=cli-dev"
+  },
+  "response": {
+    "status": 204,
+    "body": null
+  },
+  "exitCode": 0
+}

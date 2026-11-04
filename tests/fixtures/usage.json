@@ -1,0 +1,45 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "usage"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "GET",
+    "path": "/v1/usage?tenantId=cli-dev"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "tenantId": "cli-dev",
+      "period": {
+        "start": "2026-11-01T00:00:00+00:00",
+        "end": "2026-12-01T00:00:00+00:00",
+        "resetsAt": "2026-12-01T00:00:00+00:00"
+      },
+      "sms": {
+        "sent": 0,
+        "segments": 0,
+        "cap": null,
+        "remaining": null,
+        "sandbox": {
+          "sent": 1,
+          "segments": 1,
+          "cap": null,
+          "remaining": null
+        }
+      },
+      "email": {
+        "sent": 0,
+        "cap": null,
+        "remaining": null,
+        "sandbox": {
+          "sent": 1
+        }
+      },
+      "standing": "ok"
+    }
+  },
+  "exitCode": 0
+}

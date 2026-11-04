@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "verify",
+    "request",
+    "--phone",
+    "+14785550124"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/verified-destinations",
+    "body": {
+      "tenantId": "cli-dev",
+      "phone": "+14785550124"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "tenantId": "cli-dev",
+      "status": "code-sent",
+      "expiresAt": "2026-11-04T10:24:13.031967+00:00"
+    }
+  },
+  "exitCode": 0
+}

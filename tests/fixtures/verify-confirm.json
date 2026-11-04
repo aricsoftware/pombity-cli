@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "verify",
+    "confirm",
+    "--phone",
+    "+14785550124",
+    "--code",
+    "000000"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/verified-destinations/confirm",
+    "body": {
+      "tenantId": "cli-dev",
+      "phone": "+14785550124",
+      "code": "000000"
+    }
+  },
+  "response": {
+    "status": 400,
+    "body": {
+      "error": "The verification code does not match.",
+      "code": "invalid_verification_code"
+    }
+  },
+  "exitCode": 3
+}

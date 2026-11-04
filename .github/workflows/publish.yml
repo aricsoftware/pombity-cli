@@ -1,0 +1,26 @@
+name: publish
+
+# Publishing to npm runs ONLY on a v* tag, and even then only when the repository
+# variable NPM_PUBLISH_ENABLED is 'true'. The variable stays unset until
+# P6-06 (discovery and registry publishing), so tagging alone can never
+# publish the package. Both locks are test-locked in tests/workflows.test.js.
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ vars.NPM_PUBLISH_ENABLED == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm run lint
+      - run: npm test
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,33 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "preview",
+    "--to",
+    "+14785550123",
+    "--body",
+    "hi"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/messages/preview",
+    "body": {
+      "tenantId": "cli-dev",
+      "to": [
+        "+14785550123"
+      ],
+      "body": "hi"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "segments": 1,
+      "recipients": 1,
+      "consentBlocked": 0,
+      "invalidRecipients": 0
+    }
+  },
+  "exitCode": 0
+}

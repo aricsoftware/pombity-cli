@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "verify",
+    "remove",
+    "--phone",
+    "+14785550124"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "DELETE",
+    "path": "/v1/verified-destinations/%2B14785550124?tenantId=cli-dev"
+  },
+  "response": {
+    "status": 404,
+    "body": {
+      "error": "Not found.",
+      "code": "not_found"
+    }
+  },
+  "exitCode": 3
+}

@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "consent",
+    "--phone",
+    "+14785550123"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "GET",
+    "path": "/v1/consents?tenantId=cli-dev&phone=%2B14785550123"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "phone": "+14785550123",
+      "status": "OptedIn",
+      "source": "Manual",
+      "occurredAt": "2026-11-04T10:11:05.843274+00:00",
+      "campaign": null,
+      "note": "Seeded at startup"
+    }
+  },
+  "exitCode": 0
+}

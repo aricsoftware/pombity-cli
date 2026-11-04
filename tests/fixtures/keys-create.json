@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "keys",
+    "create",
+    "--name",
+    "fixture-key",
+    "--mode",
+    "sandbox"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/keys",
+    "body": {
+      "tenantId": "cli-dev",
+      "name": "fixture-key",
+      "mode": "sandbox"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2aee00055b354186b8ac26e78391b622",
+      "tenantId": "cli-dev",
+      "name": "fixture-key",
+      "mode": "Sandbox",
+      "key": "ak_test_[redacted-at-recording]",
+      "displayPrefix": "ak_test_af08",
+      "createdAt": "2026-11-04T10:14:12.934893+00:00"
+    }
+  },
+  "exitCode": 0
+}

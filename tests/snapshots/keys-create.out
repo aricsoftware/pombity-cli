@@ -1,0 +1,9 @@
+{
+  "id": "2aee00055b354186b8ac26e78391b622",
+  "tenantId": "cli-dev",
+  "name": "fixture-key",
+  "mode": "Sandbox",
+  "key": "ak_test_[redacted-at-recording]",
+  "displayPrefix": "ak_test_af08",
+  "createdAt": "2026-11-04T10:14:12.934893+00:00"
+}

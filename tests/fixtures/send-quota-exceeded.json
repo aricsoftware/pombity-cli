@@ -1,0 +1,37 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "send",
+    "--to",
+    "+14785550123",
+    "--body",
+    "over the cap"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "body": {
+      "tenantId": "cli-dev",
+      "to": [
+        "+14785550123"
+      ],
+      "body": "over the cap"
+    }
+  },
+  "response": {
+    "status": 400,
+    "body": {
+      "error": "Monthly sandbox SMS cap would be exceeded: 1 of 0 sent this period and this request adds 1. The cap resets 2026-12-01.",
+      "code": "quota_exceeded",
+      "quota": {
+        "cap": 0,
+        "used": 1,
+        "resetsAt": "2026-12-01T00:00:00+00:00",
+        "upgradeUrl": null
+      }
+    }
+  },
+  "exitCode": 3
+}

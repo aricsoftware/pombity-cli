@@ -1,0 +1,44 @@
+{
+  "recordedAt": "2026-11-04T10:14:12.856Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "report",
+    "--id",
+    "2d8da48052f845128412f9f28a784766"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "GET",
+    "path": "/v1/messages/2d8da48052f845128412f9f28a784766?tenantId=cli-dev"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2d8da48052f845128412f9f28a784766",
+      "tenantId": "cli-dev",
+      "to": "+14785550123",
+      "channel": "Sms",
+      "subject": null,
+      "body": "hi",
+      "category": "Informational",
+      "status": "Sent",
+      "statusDetail": null,
+      "segments": 1,
+      "templateId": null,
+      "correlationId": "37c2c3463267430f8e3fe817444dd601",
+      "providerMessageId": "sandbox-sms-1",
+      "deliveryStatus": "Delivered",
+      "deliveryStatusAt": "2026-11-04T10:14:12.976754+00:00",
+      "createdAt": "2026-11-04T10:14:12.976754+00:00",
+      "sandbox": true,
+      "deliveries": [
+        {
+          "status": "Delivered",
+          "receivedAt": "2026-11-04T10:14:12.976754+00:00",
+          "detail": "sandbox"
+        }
+      ]
+    }
+  },
+  "exitCode": 0
+}
