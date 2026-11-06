@@ -1,0 +1,6 @@
+# Documents of record — pombity-cli
+
+Index required by the documents-of-record standing rule (Projects/CLAUDE.md, Michael 2026-11-05): every document in this repository that describes its behavior to someone outside the code, with what it describes and which code, configuration, or decision it depends on. A session that changes a dependency updates the matching document in the same session and says so in its report; a session that adds such a document adds it here in the same commit.
+
+- `README.md` — the usage document of record, with its first section written for an agent (the three commands: send, report, verify; the enforced rules: consent/STOP, quiet hours, quotas, Retry-After, verified destinations, sandbox, idempotency) plus install, configuration, exit codes, and publishing; depends on the eight commands in `src/`, the messaging API contract and its error-code catalog, and the npm publish gating (v* tag + `NPM_PUBLISH_ENABLED`, P6-06).
+- `tests/fixtures/*.json` — recorded request/response fixtures from a real local messaging host that pin the exact messaging API contract the CLI was built against (including real quota_exceeded, invalid_verification_code, and not_found refusals, secrets redacted at recording); depend on the messaging-service HTTP contract — re-record against a live host when that contract changes.
