@@ -52,6 +52,7 @@ The CLI reads, in order of precedence:
 1. Flags: `--tenant`, `--api-url` (there is deliberately no `--api-key` flag — keys on command lines leak into shell history).
 2. Environment: `POMBITY_API_KEY`, `POMBITY_API_URL`, `POMBITY_TENANT_ID`.
 3. `~/.config/pombity/config.json` (or `$XDG_CONFIG_HOME/pombity/config.json`):
+4. Default API URL when none is configured: `https://api.pombity.com`.
 
 ```json
 { "apiKey": "ak_live_…", "apiUrl": "https://…", "tenantId": "your-tenant" }

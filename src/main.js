@@ -33,6 +33,7 @@ function helpText() {
     'Every command takes --json (raw API response on stdout), --tenant, --api-url.',
     'Configuration: POMBITY_API_KEY, POMBITY_API_URL, POMBITY_TENANT_ID, or',
     '~/.config/pombity/config.json {"apiKey","apiUrl","tenantId"}.',
+    'Default API URL: https://api.pombity.com.',
     'Exit codes: 0 ok · 1 network · 2 usage · 3 named API refusal (code on stderr).',
   );
   return lines.join('\n');

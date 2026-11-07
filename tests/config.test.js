@@ -7,6 +7,7 @@ import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { replayServer, runCli, TEST_KEY } from './helpers.js';
+import { resolveConfig, DEFAULT_API_URL } from '../src/config.js';
 
 const OK = { status: 200, body: { tenantId: 'cli-dev', standing: 'ok' } };
 
@@ -29,13 +30,26 @@ test('missing API key refuses with a usage error naming POMBITY_API_KEY', async 
   assert.ok(result.stderr.includes('POMBITY_API_KEY'), result.stderr);
 });
 
-test('missing API URL refuses with a usage error naming POMBITY_API_URL', async () => {
-  const result = await runCli(['usage'], {
+test('with no URL configured anywhere, the production default is used', () => {
+  const home = tempHome();
+  const config = resolveConfig({}, {
     POMBITY_API_KEY: TEST_KEY,
     POMBITY_TENANT_ID: 'cli-dev',
+    HOME: home,
   });
-  assert.equal(result.code, 2);
-  assert.ok(result.stderr.includes('POMBITY_API_URL'), result.stderr);
+  assert.equal(config.apiUrl, DEFAULT_API_URL);
+  assert.equal(DEFAULT_API_URL, 'https://api.pombity.com');
+});
+
+test('an explicit URL still wins over the default', () => {
+  const home = tempHome();
+  const config = resolveConfig({}, {
+    POMBITY_API_KEY: TEST_KEY,
+    POMBITY_TENANT_ID: 'cli-dev',
+    POMBITY_API_URL: 'http://127.0.0.1:9',
+    HOME: home,
+  });
+  assert.equal(config.apiUrl, 'http://127.0.0.1:9');
 });
 
 test('missing tenant refuses with a usage error naming --tenant and POMBITY_TENANT_ID', async () => {

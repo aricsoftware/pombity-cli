@@ -5,6 +5,9 @@ import { homedir } from 'node:os';
 /** A problem with how the CLI was invoked or configured — exit code 2. */
 export class UsageError extends Error {}
 
+/** The production API. Overridable via --api-url, POMBITY_API_URL, or the config file. */
+export const DEFAULT_API_URL = 'https://api.pombity.com';
+
 /**
  * The config file lives in the user's home (XDG config dir), NEVER in the
  * working directory: a checked-out repository must not be able to plant
@@ -29,19 +32,13 @@ function readConfigFile(env) {
 export function resolveConfig(flags, env) {
   const file = readConfigFile(env);
   const apiKey = env.POMBITY_API_KEY || file.apiKey;
-  const apiUrl = flags['api-url'] || env.POMBITY_API_URL || file.apiUrl;
+  const apiUrl = flags['api-url'] || env.POMBITY_API_URL || file.apiUrl || DEFAULT_API_URL;
   const tenantId = flags.tenant || env.POMBITY_TENANT_ID || file.tenantId;
 
   if (!apiKey) {
     throw new UsageError(
       'no API key: set POMBITY_API_KEY, or put {"apiKey": "..."} in '
         + `${configFilePath(env)} (a config file in the working directory is never read)`,
-    );
-  }
-  if (!apiUrl) {
-    throw new UsageError(
-      'no API URL: set POMBITY_API_URL, pass --api-url, or put {"apiUrl": "..."} in '
-        + configFilePath(env),
     );
   }
   if (!tenantId) {
