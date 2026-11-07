@@ -37,6 +37,22 @@ test('publish workflow runs the suite before publishing', () => {
   assert.ok(tests !== -1 && tests < publishStep, 'tests must run before publish');
 });
 
+test('publish workflow uses npm trusted publishing, never a token', () => {
+  assert.ok(publish.includes('id-token: write'), 'OIDC needs the id-token: write permission');
+  assert.ok(!publish.includes('NODE_AUTH_TOKEN'), 'no token env: trusted publishing only');
+  assert.ok(!publish.includes('NPM_TOKEN'), 'no token secret: trusted publishing only');
+  assert.ok(publish.includes('npm install -g npm@^11.5.1'), 'trusted publishing needs npm 11.5.1+');
+  assert.ok(publish.includes('--provenance'), 'provenance stays on (public repository)');
+});
+
+test('the contract check runs on a schedule and never publishes', () => {
+  const contract = readFileSync(join(repoRoot, '.github', 'workflows', 'contract.yml'), 'utf8');
+  assert.ok(contract.includes('schedule'), 'contract check must be scheduled');
+  assert.ok(contract.includes('node scripts/check-contract.js'), 'must run the contract script');
+  assert.ok(!contract.includes('npm publish'), 'the contract workflow must never publish');
+  assert.ok(!contract.includes('id-token'), 'the contract workflow needs no OIDC');
+});
+
 test('CI runs lint and test on push', () => {
   assert.match(ci, /on:\s*\n\s+push:/, 'CI must run on push');
   assert.ok(ci.includes('npm run lint'), 'CI must lint');

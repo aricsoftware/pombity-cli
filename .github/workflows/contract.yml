@@ -1,0 +1,20 @@
+name: contract
+
+# Weekly drift check: the recorded fixtures must still describe the live API
+# (method + path documented, 2xx statuses present, refusal codes still in the
+# catalog). Failure means re-record the fixtures and cut a release — it never
+# publishes anything.
+on:
+  schedule:
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-contract.js

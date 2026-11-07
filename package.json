@@ -23,5 +23,5 @@
     "url": "git+https://github.com/aricsoftware/pombity-cli.git"
   },
   "author": "Aric Software",
-  "license": "UNLICENSED"
+  "license": "MIT"
 }
