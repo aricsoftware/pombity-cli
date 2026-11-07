@@ -1,6 +1,6 @@
 {
   "name": "pombity",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command-line client for Pombity (Aric Communication Service): texting for your application, with the compliance built in.",
   "type": "module",
   "bin": {
