@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-11-10T05:34:15.885Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "verify",
+    "remove",
+    "--email",
+    "dana@example.com"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "DELETE",
+    "path": "/v1/verified-destinations/dana%40example.com?tenantId=cli-dev"
+  },
+  "response": {
+    "status": 404,
+    "body": {
+      "error": "Not found.",
+      "code": "not_found"
+    }
+  },
+  "exitCode": 3
+}

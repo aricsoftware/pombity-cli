@@ -10,6 +10,17 @@ function need(values, flag) {
   return value;
 }
 
+/** A verified destination is exactly one of a phone number or an email
+ * address; the request carries the one that was given, under its own key. */
+function destination(values) {
+  const hasPhone = values.phone !== undefined;
+  const hasEmail = values.email !== undefined;
+  if (hasPhone === hasEmail) {
+    throw new UsageError('exactly one of --phone or --email is required');
+  }
+  return hasPhone ? { phone: values.phone } : { email: values.email };
+}
+
 function bodyOrTemplate(values) {
   if (values.body === undefined && values.template === undefined) {
     throw new UsageError('one of --body or --template is required');
@@ -259,16 +270,15 @@ export const commands = {
 
   verify: {
     summary:
-      'Verified destinations: pombity verify request --phone <p> | confirm --phone <p> --code <c> | list | remove --phone <p>',
+      'Verified destinations (a phone number or an email address): pombity verify request --phone <p> | --email <e> ; confirm --phone <p> | --email <e> --code <c> ; list ; remove --phone <p> | --email <e>',
     sub: {
       request: {
-        options: { phone: { type: 'string' } },
+        options: { phone: { type: 'string' }, email: { type: 'string' } },
         run(values, tenantId) {
-          need(values, '--phone');
           return {
             method: 'POST',
             path: '/v1/verified-destinations',
-            body: { tenantId, phone: values.phone },
+            body: { tenantId, ...destination(values) },
           };
         },
         human: (b) =>
@@ -277,32 +287,34 @@ export const commands = {
             : `code sent; expires ${b.expiresAt}`,
       },
       confirm: {
-        options: { phone: { type: 'string' }, code: { type: 'string' } },
+        options: { phone: { type: 'string' }, email: { type: 'string' }, code: { type: 'string' } },
         run(values, tenantId) {
-          need(values, '--phone');
+          const dest = destination(values);
           need(values, '--code');
           return {
             method: 'POST',
             path: '/v1/verified-destinations/confirm',
-            body: { tenantId, phone: values.phone, code: values.code },
+            body: { tenantId, ...dest, code: values.code },
           };
         },
-        human: (b) => `verified ${b.phone} at ${b.verifiedAt}`,
+        human: (b) => `verified ${b.phone ?? b.email} at ${b.verifiedAt}`,
       },
       list: {
         options: {},
         run(values, tenantId) {
           return { method: 'GET', path: '/v1/verified-destinations' + q({ tenantId }) };
         },
-        human: (b) => b.map((d) => `${d.phone}  verified ${d.verifiedAt}`).join('\n') || '(none verified)',
+        human: (b) =>
+          b.map((d) => `${d.phone ?? d.email}  verified ${d.verifiedAt}`).join('\n') || '(none verified)',
       },
       remove: {
-        options: { phone: { type: 'string' } },
+        options: { phone: { type: 'string' }, email: { type: 'string' } },
         run(values, tenantId) {
-          need(values, '--phone');
+          const dest = destination(values);
           return {
             method: 'DELETE',
-            path: `/v1/verified-destinations/${encodeURIComponent(values.phone)}` + q({ tenantId }),
+            path:
+              `/v1/verified-destinations/${encodeURIComponent(dest.phone ?? dest.email)}` + q({ tenantId }),
           };
         },
         human: () => 'removed',

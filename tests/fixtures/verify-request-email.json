@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-11-10T05:34:15.885Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "verify",
+    "request",
+    "--email",
+    "dana@example.com"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/verified-destinations",
+    "body": {
+      "tenantId": "cli-dev",
+      "email": "dana@example.com"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "tenantId": "cli-dev",
+      "status": "code-sent",
+      "expiresAt": "2026-11-10T05:44:15.967348+00:00"
+    }
+  },
+  "exitCode": 0
+}

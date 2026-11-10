@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-11-10T05:34:15.885Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "verify",
+    "confirm",
+    "--email",
+    "dana@example.com",
+    "--code",
+    "000000"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/verified-destinations/confirm",
+    "body": {
+      "tenantId": "cli-dev",
+      "email": "dana@example.com",
+      "code": "000000"
+    }
+  },
+  "response": {
+    "status": 400,
+    "body": {
+      "error": "The verification code does not match.",
+      "code": "invalid_verification_code"
+    }
+  },
+  "exitCode": 3
+}
