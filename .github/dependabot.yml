@@ -1,0 +1,18 @@
+# Dependency hygiene on every aricsoftware repo (S-07; this repository was
+# created after S-07 and gained this file 2026-11-11). The package has zero
+# dependencies by rule (test-locked), so the npm entry has nothing to update
+# today; it is here so a dependency can never arrive unwatched. Weekly
+# version PRs for the workflow actions; security updates arrive as soon as
+# GitHub publishes the advisory.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
