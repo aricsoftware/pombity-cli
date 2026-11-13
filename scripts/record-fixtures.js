@@ -11,7 +11,9 @@
 //
 // The host must be seeded with: a tenant (RECORD_TENANT, default cli-dev) on
 // a UTC timezone with a sending number, a sandbox key scoped to it, and an
-// opted-in consent for RECORD_PHONE (default +14785550123). The email
+// opted-in consent for RECORD_PHONE (default +14785550123). The two
+// awaiting-approval fixtures need a host that knows a number's status
+// (messaging-service from P6-29); they set and restore it themselves. The email
 // verification fixtures (P6-23) also need a verified sending domain the tenant
 // can use: start the host with Email__SharedDomain set and
 // Email__FakeDomainAutoVerify=true, then register and verify that domain
@@ -55,12 +57,13 @@ async function call(key, method, path, { body, headers } = {}) {
   return { status: response.status, body: text.length > 0 ? JSON.parse(text) : null };
 }
 
-/** Record one exchange: send the request the CLI will emit, keep the live answer. */
-async function record(name, argv, { method, path, body, headers }, { redact } = {}) {
+/** Record one exchange: send the request the CLI will emit, keep the live answer.
+ *  `key` overrides the sandbox key for one exchange; no key is ever written. */
+async function record(name, argv, { method, path, body, headers }, { redact, key } = {}) {
   if (!selected(name)) {
     return JSON.parse(readFileSync(join(fixturesDir, `${name}.json`), 'utf8')).response;
   }
-  const response = await call(sandboxKey, method, path, { body, headers });
+  const response = await call(key ?? sandboxKey, method, path, { body, headers });
   if (redact) redact(response);
   const fixture = {
     recordedAt,
@@ -206,6 +209,56 @@ if (selected('send-quota-exceeded')) {
     body: { tenantId: tenant, to: [phone], body: 'over the cap' },
   });
   await call(adminKey, 'PUT', `/v1/tenants/${tenant}`, { body: { sandboxSmsMonthlyCap: -1 } });
+}
+
+// --- a sending number awaiting carrier approval, produced for real ---
+// The tenant's number is marked awaiting-carrier-approval with the admin key,
+// the two refusals are recorded, and the number is put back to active. A
+// verification code is a live text even for a sandbox key, so the sandbox key
+// records that refusal; a live send needs a live key, minted for the one
+// request and revoked straight after (it is never written anywhere).
+const awaitingNames = ['verify-request-number-awaiting-approval', 'send-number-awaiting-approval'];
+if (awaitingNames.some(selected)) {
+  const current = await call(adminKey, 'GET', `/v1/tenants/${tenant}`);
+  const number = current.body?.sendingNumber;
+  if (!number) {
+    console.error(`tenant ${tenant} has no sending number; cannot record the awaiting-approval fixtures`);
+    process.exit(1);
+  }
+  const setStatus = (status) =>
+    call(adminKey, 'PUT', `/v1/numbers/${encodeURIComponent(number)}`, { body: { status } });
+  if ((await setStatus('awaiting-carrier-approval')).status !== 200) {
+    console.error('could not mark the sending number as awaiting carrier approval');
+    process.exit(1);
+  }
+  try {
+    await record(
+      'verify-request-number-awaiting-approval',
+      ['verify', 'request', '--phone', verifyPhone],
+      { method: 'POST', path: '/v1/verified-destinations', body: { tenantId: tenant, phone: verifyPhone } },
+    );
+    if (selected('send-number-awaiting-approval')) {
+      const live = await call(adminKey, 'POST', '/v1/keys', {
+        body: { tenantId: tenant, name: 'fixture-live-key', mode: 'live' },
+      });
+      if (live.status !== 200) {
+        console.error(`could not mint a live key for the awaiting-approval fixture: ${live.status}`);
+        process.exit(1);
+      }
+      try {
+        await record(
+          'send-number-awaiting-approval',
+          ['send', '--to', phone, '--body', 'hi'],
+          { method: 'POST', path: '/v1/messages', body: { tenantId: tenant, to: [phone], body: 'hi' } },
+          { key: live.body.key },
+        );
+      } finally {
+        await call(adminKey, 'DELETE', `/v1/keys/${live.body.id}` + q({ tenantId: tenant }));
+      }
+    }
+  } finally {
+    await setStatus('active');
+  }
 }
 
 console.log('done');

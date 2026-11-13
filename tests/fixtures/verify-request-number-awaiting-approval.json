@@ -1,0 +1,27 @@
+{
+  "recordedAt": "2026-11-13T19:27:36.939Z",
+  "recordedAgainst": "messaging-service local dev host (InMemory stores, Fake/Sandbox providers)",
+  "argv": [
+    "verify",
+    "request",
+    "--phone",
+    "+14785550124"
+  ],
+  "tenant": "cli-dev",
+  "request": {
+    "method": "POST",
+    "path": "/v1/verified-destinations",
+    "body": {
+      "tenantId": "cli-dev",
+      "phone": "+14785550124"
+    }
+  },
+  "response": {
+    "status": 400,
+    "body": {
+      "error": "Live texting from this number (+18335550100) starts when the carrier approves it. Sandbox sends and email work now.",
+      "code": "number_awaiting_carrier_approval"
+    }
+  },
+  "exitCode": 3
+}

@@ -25,6 +25,7 @@ An email address is verified the same way (from version 0.2.0): `pombity verify 
 - **Quotas**: refusals come back as `quota_exceeded` with the cap, honest usage, and the reset moment (`resetsAt`). Do not retry before it; check `pombity usage`.
 - **Velocity**: a burst past the per-key limit answers HTTP 429 with `Retry-After`. Back off exactly that long.
 - **Verified destinations**: on a free tier, live texts go only to numbers, and live email only to addresses, that the key holder proved with `pombity verify` (`destination_not_verified` otherwise). An account holds at most 3 verified destinations in all. Sandbox sends are exempt.
+- **A number the carrier has not approved yet**: while your account's sending number is awaiting carrier approval, a live text and a phone verification (`pombity verify request --phone …`) are refused with `number_awaiting_carrier_approval`, before anything reaches the carrier and without using your allowance. Live texting starts when the carrier approves the number; do not retry in a loop. Sandbox sends and email work meanwhile, and so does verifying an email address (`--email`). An account with no sending number it may use is refused `no_sending_number`.
 - **Email**: an account without its own verified sending domain sends plain text only (`--html` is refused with `html_requires_verified_domain`) from one shared sender, notify@mail.pombity.com, shown as "Pombity". The service puts "Sent by <organization> via Pombity" as the first line of the body, and adds the unsubscribe header and the unsubscribe line to every live email that is not going to your own verified address: never write your own. An address that unsubscribed, hard-bounced, or complained is `Blocked` from then on; that is the rule working, not an error to retry.
 - **Sandbox keys** (`ak_test_…`) never create carrier traffic: sends route to a simulator with realistic `Delivered` receipts, and every rule above still runs. Develop against a sandbox key.
 - **Idempotency**: pass `--idempotency-key <token>` on `send`/`email`; a retry with the same key returns the original response and sends nothing. Use it for any retry logic.
@@ -38,7 +39,7 @@ An email address is verified the same way (from version 0.2.0): `pombity verify 
 | 2 | usage or configuration error (bad flags, missing key/url/tenant) |
 | 3 | the API refused with a named catalog code — the code is on stderr (`pombity: <code>: …`) and, with `--json`, the full error body is on stdout |
 
-Every API error carries a machine-readable `code` from the service's test-locked catalog (`invalid_api_key`, `quota_exceeded`, `destination_not_verified`, `content_refused`, `account_suspended`, …).
+Every API error carries a machine-readable `code` from the service's test-locked catalog (`invalid_api_key`, `quota_exceeded`, `destination_not_verified`, `content_refused`, `account_suspended`, `number_awaiting_carrier_approval`, …).
 
 ## Install
 
